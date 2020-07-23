@@ -7,13 +7,13 @@ import sys
 import datetime
 from matplotlib.dates import DateFormatter
 
-filename = "data/netlog-2020-07-22.csv"
+filename = sys.argv[1] 
 
 time_dur = 5
 
 TO_BITS=8
 TO_KB=1024
-TO_MB=1024
+TO_MB=1024*1024
 
 data_legend = {
 	"wifi0":{"RX_pos":1, "TX_pos":2, "type":"2.4 GHz Wifi"},
@@ -36,7 +36,7 @@ def cal_rate(curr,prev,period):
 
 		bw_rate = (float(tmp_curr[i]) - float(tmp_prev[i]))/float(period)
 
-		bw_rate = (bw_rate * TO_BITS) / (TO_KB * TO_MB)
+		bw_rate = (bw_rate * TO_BITS) / (TO_MB)
 
 		tmp_val.append(bw_rate)
 
@@ -52,6 +52,7 @@ def plot_this(rate_series, time_series):
 	plt_id  = ["eth0", "eth1", "wifi1"]
 	lim_val = [0,110]
 	int_num = len(plt_id) 
+	date_format = "%H:%M"
 
 	for i in range(int_num):
 	
@@ -62,7 +63,7 @@ def plot_this(rate_series, time_series):
 		plt.title(data_legend[plt_id[i]]["type"] + " Download")
 		plt.grid(True)
 
-		xaxis_tick_format = DateFormatter('%H:%M')
+		xaxis_tick_format = DateFormatter(date_format)
 		plt.gca().xaxis.set_major_formatter(xaxis_tick_format)
 	
 		plt.subplot(int("32" + str(2*i+2)))
@@ -72,7 +73,7 @@ def plot_this(rate_series, time_series):
 		plt.title(data_legend[plt_id[i]]["type"] + " Upload")
 		plt.grid(True)
 
-		xaxis_tick_format = DateFormatter('%H:%M')
+		xaxis_tick_format = DateFormatter(date_format)
 		plt.gca().xaxis.set_major_formatter(xaxis_tick_format)
 
 	plt.subplots_adjust(left=0.06, right=0.98, top=0.95, bottom=0.05, wspace=0.15, hspace=0.28)
