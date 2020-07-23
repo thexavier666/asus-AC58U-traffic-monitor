@@ -12,7 +12,7 @@ dump_archive="stats"
 # log file name
 dump_filename="netlog-$(date +%F).csv"
 
-mkdir -p  $dump_dir$dump_archive
+mkdir -p $dump_dir$dump_archive
 
 while [ True ]
 do
