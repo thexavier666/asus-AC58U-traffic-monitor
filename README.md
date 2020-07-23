@@ -8,13 +8,13 @@ So I decided to create my own logger.
 
 1. Router must support a POSIX shell
 2. Should be able to `ssh` into it
-3. Should support `awk` and `sed`
+3. Should support `cut`, `awk` and `sed`
 
 ## Installing the logger
 
-Place the `monitor.sh` in your router.
+Place `config` and `monitor.sh` in your router in the same directory.
 Ideally, you should place it in such a partition which has enough space to store atleast 2 log file dumps.
-Accordingly you should change the `dump_archive` directory present in the file `monitor.sh`.
+Accordingly you should change the `DUMP_ARCHIVE` directory present in `config`.
 Also, change the interface list as per your router's configuration.
 
 Start the process using `nohup` or `screen`.
