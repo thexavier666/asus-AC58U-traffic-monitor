@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Config file for the application
+# Ideally, you should only have to modify this file
+
+# time at which log is to be dumped
+# and a new log file is to be generated
+REFRESH_TIME="07:00"
+
+# the amount of time in seconds the logger 
+# will sleep between a fresh log capture
+# this should be kept atleast 60 seconds
+SLEEP_LONG="60"
+
+# the amount of time in seconds the logger
+# will sleep between each interface stat dump
+# this should be kept small
+SLEEP_SHORT="5"
+
+# directory in which the logger should be kept
+# this should be in such a partition 
+# which has enough disk space
+DUMP_DIR="/tmp/net_monitor/"
+
+# directory where all past logs are dumped
+# this directory should not be too large
+DUMP_ARCHIVE="stats"
+
+# generates a new logfile name when $REFRESH_TIME
+# has been reached
+GET_LOGFILE_NAME()
+{
+	date_str="netlog-$(date +%F).csv"
+	echo $date_str
+}
