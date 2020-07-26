@@ -7,23 +7,8 @@ import sys
 import datetime
 from matplotlib.dates import DateFormatter
 
-filename = sys.argv[1] 
-
-time_dur = 5
-
-TO_BITS=8
-TO_KB=1024
-TO_MB=1024*1024
-
-data_legend = {
-	"wifi0":{"RX_pos":1, "TX_pos":2, "type":"2.4 GHz Wifi"},
-	"wifi1":{"RX_pos":3, "TX_pos":4, "type":"(Work Laptop) Wifi"},
-	"ath0" :{"RX_pos":5, "TX_pos":6, "type":"2.4 GHz Wifi"},
-	"ath1" :{"RX_pos":7, "TX_pos":8, "type":""},
-	"eth0" :{"RX_pos":9, "TX_pos":10,"type":"Internet"},
-	"eth1" :{"RX_pos":11,"TX_pos":12,"type":"(Personal Servers) LAN"},
-	"br0"  :{"RX_pos":13,"TX_pos":14,"type":"Internet"}
-}
+# importing all constants
+import config
 
 def cal_rate(curr,prev,period):
 
@@ -36,7 +21,7 @@ def cal_rate(curr,prev,period):
 
 		bw_rate = (float(tmp_curr[i]) - float(tmp_prev[i]))/float(period)
 
-		bw_rate = (bw_rate * TO_BITS) / (TO_MB)
+		bw_rate = (bw_rate * config.TO_BITS) / (config.TO_MB)
 
 		tmp_val.append(bw_rate)
 
@@ -49,28 +34,26 @@ def plot_this(rate_series, time_series):
 
 	np_xaxis = time_series
 
-	plt_id  = ["eth0", "eth1", "wifi1"]
-	lim_val = [0,110]
-	int_num = len(plt_id) 
+	int_num = len(config.plt_id) 
 	date_format = "%H:%M"
 
 	for i in range(int_num):
 	
 		plt.subplot(int(str(int_num) + "2" + str(2*i+1)))
-		plt.ylim(lim_val)
-		plt.plot_date(np_xaxis, np_rate_series[:,data_legend[plt_id[i]]["RX_pos"]], linestyle='solid', marker='None')
+		plt.ylim(config.lim_val)
+		plt.plot_date(np_xaxis, np_rate_series[:,config.data_legend[config.plt_id[i]]["RX_pos"]], linestyle='solid', marker='None')
 		plt.ylabel("Bandwidth (Mbps)")
-		plt.title(data_legend[plt_id[i]]["type"] + " Download")
+		plt.title(config.data_legend[config.plt_id[i]]["type"] + " Download")
 		plt.grid(True)
 
 		xaxis_tick_format = DateFormatter(date_format)
 		plt.gca().xaxis.set_major_formatter(xaxis_tick_format)
 	
-		plt.subplot(int("32" + str(2*i+2)))
-		plt.ylim(lim_val)
-		plt.plot_date(np_xaxis, np_rate_series[:,data_legend[plt_id[i]]["TX_pos"]], linestyle='solid', marker='None')
+		plt.subplot(int(str(int_num) + "2" + str(2*i+2)))
+		plt.ylim(config.lim_val)
+		plt.plot_date(np_xaxis, np_rate_series[:,config.data_legend[config.plt_id[i]]["TX_pos"]], linestyle='solid', marker='None')
 		plt.ylabel("Bandwidth (Mbps)")
-		plt.title(data_legend[plt_id[i]]["type"] + " Upload")
+		plt.title(config.data_legend[config.plt_id[i]]["type"] + " Upload")
 		plt.grid(True)
 
 		xaxis_tick_format = DateFormatter(date_format)
@@ -82,6 +65,15 @@ def plot_this(rate_series, time_series):
 	
 
 def main():
+	if len(sys.argv) != 4:
+		print("usage: {} <filename> <lower limit> <upper limit>\n".format(sys.argv[0]))
+		print("       if you don't want to use limits, put -1 instead\n")
+		print("       Example:")
+		print("       ./convert file.csv -1 -1")
+
+		return 0
+
+	filename = sys.argv[1] 
 	fp = csv.reader(open(filename,'r'))
 
 	row_prev = next(fp)
@@ -99,7 +91,15 @@ def main():
 
 		row_prev = row
 
-	plot_this(rate_series, time_series)
+	clip_lower = 0
+	clip_upper = len(rate_series)+1
+
+
+	if sys.argv[2] != "-1" and sys.argv[3] != "-1":
+		clip_lower = int(sys.argv[2])
+		clip_upper = int(sys.argv[3])+1
+
+	plot_this(rate_series[clip_lower:clip_upper], time_series[clip_lower:clip_upper])
 
 if __name__ == '__main__':
 	main()

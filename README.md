@@ -31,9 +31,11 @@ You can also tell your secondary device to pull the log file right after the rou
 
 You need to have `matplotlib` package.
 You can this on your own machine, once the data has been collected.
-Replace the logfile name in `convert.py` in the `filename` variable.
+To plot, run the command
+
+	./plot.py <filename> -1 -1
 
 ## To-do
 
-* Seperate config file
+* ~~Seperate config file~~
 * Automate dumping of log files
