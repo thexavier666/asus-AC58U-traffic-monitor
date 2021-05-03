@@ -35,6 +35,16 @@ To plot, run the command
 
 	./plot.py <filename> -1 -1
 
+## Branch `openwrt`
+
+I have recently installed the openwrt firmware on my ASUS router.
+The changes are mentioned in the `openwrt` branch.
+The main changes are
+
+* using stats from `/sys/class/net` instead of `ip` since openwrt uses `ip` from the busybox utilities and it does not have the `s` flag (statistics flag)
+* different set of interfaces
+* different location of dumping log files
+
 ## To-do
 
 * ~~Seperate config file~~
