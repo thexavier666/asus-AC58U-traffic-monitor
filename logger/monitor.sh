@@ -10,7 +10,7 @@ DUMP_FILENAME="$(GET_LOGFILE_NAME)"
 while [ True ]
 do
 	# list of interfaces which we want to monitor
-        set -- "wifi0" "wifi1" "ath0" "ath1" "eth0" "eth1" "br0"
+    set -- "wifi0" "wifi1" "ath0" "ath1" "eth0" "eth1" "br0"
 
 	# getting the current time
 	curr_time=$(date +%R:%S)
@@ -18,22 +18,24 @@ do
 	
 	str_dump="$curr_time_utc"
 	
+	# iterating through each interface
 	while [ $# -gt 0 ]
 	do
-		# get statistics for interface $1
-		# get 1st column
-		# get only 4th and 6th row
-		# format them into csv string
-		output=$(ip -s link ls $1 | awk '{print $1}' | sed -n -e 4p -e 6p | sed 'H;1h;$!d;x;y/\n/,/')
+		# getting rx and tx stats
+		rx_val=$(cat /sys/class/net/$1/statistics/rx_bytes)
+		tx_val=$(cat /sys/class/net/$1/statistics/tx_bytes)
+		output="$rx_val,$tx_val"
 
 		str_dump="$str_dump,$output"
 		shift
-        done
+    done
 
+	# putting stats in log file
 	echo "$str_dump" >> $DUMP_DIR$DUMP_FILENAME
 
 	curr_time=$(echo $curr_time | cut -d':' -f1,2)
 
+	# time to roll over to new log file
 	if test $curr_time = $REFRESH_TIME
 	then
 		mv $DUMP_DIR$DUMP_FILENAME $DUMP_DIR$DUMP_ARCHIVE
