@@ -40,6 +40,10 @@ To plot, run the command
 The arguments `-1 -1` indicates plot the whole file, and not use any upper and lower time frame.
 Check `plot.py` file for more details.
 
+### Note
+
+The interface list mentioned in `logger/config` should reflect the interface list in `plotter/config.py`, otherwise all sorts of errors will be thrown.
+
 ## Branch `openwrt`
 
 I have recently installed the openwrt firmware on my ASUS router.
