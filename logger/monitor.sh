@@ -10,7 +10,7 @@ DUMP_FILENAME="$(GET_LOGFILE_NAME)"
 while [ True ]
 do
 	# list of interfaces which we want to monitor
-    set -- "wifi0" "wifi1" "ath0" "ath1" "eth0" "eth1" "br0"
+    set -- "wlan0" "wlan1" "eth0" "eth1" "br-lan"
 
 	# getting the current time
 	curr_time=$(date +%R:%S)

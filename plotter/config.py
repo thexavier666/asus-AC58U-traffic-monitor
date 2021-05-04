@@ -11,15 +11,13 @@ TO_KB	= 1024
 TO_MB	= 1024*1024
 
 # interfaces to plot
-plt_id  = ["eth0", "eth1", "wifi1"]
+plt_id  = ["wlan0", "wlan1", "eth0", "eth1", "br-lan"]
 
-# list of possible interfaces
+# list of interfaces, column position in data file, and a short description
 data_legend = {
-	"wifi0":{"RX_pos":1, "TX_pos":2, "type":"2.4 GHz Wifi"},
-	"wifi1":{"RX_pos":3, "TX_pos":4, "type":"(Work Laptop) Wifi"},
-	"ath0" :{"RX_pos":5, "TX_pos":6, "type":"2.4 GHz Wifi"},
-	"ath1" :{"RX_pos":7, "TX_pos":8, "type":""},
-	"eth0" :{"RX_pos":9, "TX_pos":10,"type":"Internet"},
-	"eth1" :{"RX_pos":11,"TX_pos":12,"type":"(Personal Servers) LAN"},
-	"br0"  :{"RX_pos":13,"TX_pos":14,"type":"Internet"}
+	"wlan0" :{"RX_pos":1, "TX_pos":2, "type":"2.4 GHz Wifi"},
+	"wlan1" :{"RX_pos":3, "TX_pos":4, "type":"5.0 Ghz Wifi"},
+	"eth0"  :{"RX_pos":5, "TX_pos":6, "type":"LAN Traffic"},
+	"eth1"  :{"RX_pos":7, "TX_pos":8, "type":"WAN Traffic"},
+	"br-lan":{"RX_pos":9, "TX_pos":10,"type":"Don't know"}
 }
