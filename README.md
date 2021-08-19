@@ -12,25 +12,30 @@ So I decided to create my own logger.
 
 ## Installing the logger
 
-Place `config` and `monitor.sh` in your router in the same directory.
+* Place `config` and `monitor.sh` in your router in the same directory.
 Ideally, you should place it in such a partition which has enough space to store atleast 2 log file dumps.
-Accordingly you should change the `DUMP_ARCHIVE` directory present in `config`.
-Also, change the interface list as per your router's configuration.
+* Change the `DUMP_ARCHIVE` directory present in `config`.
+This dictates where the log files will be written.
+* Change the interface list as per your router setup.
+Check interface list using `ifconfig` or `ip a`.
+
+## Starting the logger
 
 Start the process using `nohup` or `screen`.
 
 	nohup monitor.sh
 
-If your router does not support those applications, you need to have another device which can login to the router and run the script.
+**Note** - If your router does not support `nohup` or similar applications, you need to have another device which can login to the router and run the script.
 Unfortunately, your secondary device needs to be on.
 
 Since my ASUS router does not have `ssh-keygen`, I could not automate the dumping of log files.
 You can also tell your secondary device to pull the log file right after the router dumps the log.
+Installing something like OpenWrt alleviates the problem.
 
 ## Plotting the data
 
-You need to have `matplotlib` package.
-You can this on your own machine, once the data has been collected.
+You need to have `matplotlib` Python package.
+You can run this on your own machine, once the data has been collected.
 To plot, run the command
 
 	./plot.py <filename> -1 -1
